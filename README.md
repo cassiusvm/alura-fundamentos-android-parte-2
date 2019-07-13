@@ -1,2 +1,2 @@
-# alura-fundamentos-android-parte-1
-Curso Alura - Fundamentos Android Parte 1
+# alura-fundamentos-android-parte-2
+Curso Alura - Fundamentos Android Parte 2
