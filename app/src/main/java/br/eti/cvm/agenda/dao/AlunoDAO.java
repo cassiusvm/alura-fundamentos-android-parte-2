@@ -55,5 +55,8 @@ public class AlunoDAO {
         return new ArrayList<>(alunos);
     }
 
+    public void limpaLista() {
+        alunos.clear();
+    }
 }
 
