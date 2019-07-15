@@ -34,13 +34,20 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
         setTitle(TITULO_APPBAR);
 
-        configuraBotaoNovoAluno();
-
         dao = new AlunoDAO();
 
         dao.salva(new Aluno("Aluno 01", "123", "aluno01@escola.br"));
         dao.salva(new Aluno("Aluno 02", "456", "aluno02@escola.br"));
 
+        configuraBotaoNovoAluno();
+
+        ListView listaDeAlunos = findViewById(R.id.activity_lista_alunos_listview);
+
+        configuraAdapter(listaDeAlunos);
+
+        configuraNovoOuEditaAluno(listaDeAlunos);
+
+        configuraExclusaoAluno(listaDeAlunos);
     }
 
     private void configuraBotaoNovoAluno() {
@@ -61,13 +68,12 @@ public class ListaAlunosActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        ListView listaDeAlunos = findViewById(R.id.activity_lista_alunos_listview);
+        atualizaAlunos();
+    }
 
-        exibeListaAlunos(listaDeAlunos);
-
-        configuraNovoOuEditaAluno(listaDeAlunos);
-
-        configuraExclusaoAluno(listaDeAlunos);
+    private void atualizaAlunos() {
+        adapterListaAlunos.clear();
+        adapterListaAlunos.addAll(dao.getAlunos());
     }
 
     private void configuraExclusaoAluno(ListView listaDeAlunos) {
@@ -82,9 +88,9 @@ public class ListaAlunosActivity extends AppCompatActivity {
         });
     }
 
-    private void exibeListaAlunos(ListView listView) {
+    private void configuraAdapter(ListView listView) {
         adapterListaAlunos = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, dao.getAlunos());
+                android.R.layout.simple_list_item_1);
         listView.setAdapter(adapterListaAlunos);
     }
 
