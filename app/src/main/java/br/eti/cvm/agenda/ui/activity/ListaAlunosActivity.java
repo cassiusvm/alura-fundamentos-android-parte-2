@@ -49,15 +49,13 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
         configuraNovoOuEditaAluno(listaDeAlunos);
 
-//        configuraExclusaoAluno(listaDeAlunos);
-
         registerForContextMenu(listaDeAlunos);
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add("Remover");
+        getMenuInflater().inflate(R.menu.activity_lista_alunos_menu, menu);
     }
 
     private void configuraBotaoNovoAluno() {
@@ -99,19 +97,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
         adapterListaAlunos.clear();
         adapterListaAlunos.addAll(dao.getAlunos());
     }
-
-    /*private void configuraExclusaoAluno(ListView listaDeAlunos) {
-        listaDeAlunos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int posicao, long id) {
-                Aluno alunoEscolhido = (Aluno) adapterView.getItemAtPosition(posicao);
-                dao.remove(alunoEscolhido);
-                adapterListaAlunos.remove(alunoEscolhido);
-                return true;
-            }
-        });
-    }*/
-
+    
     private void configuraAdapter(ListView listView) {
         adapterListaAlunos = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1);
