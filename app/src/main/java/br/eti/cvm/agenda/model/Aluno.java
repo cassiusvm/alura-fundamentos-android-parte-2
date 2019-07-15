@@ -6,11 +6,13 @@ import java.io.Serializable;
 
 public class Aluno implements Serializable {
 
+    private int id = 0;
     private String nome;
     private String telefone;
     private String email;
 
-    public Aluno() { }
+    public Aluno() {
+    }
 
     public Aluno(String nome, String telefone, String email) {
         this.nome = nome;
@@ -40,6 +42,18 @@ public class Aluno implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean temIdValido() {
+        return id > 0;
     }
 
     @NonNull
