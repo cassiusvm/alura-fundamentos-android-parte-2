@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,21 +57,23 @@ public class FormularioAlunoActivity extends AppCompatActivity {
             aluno = new Aluno();
         }
 
-        configuraBotaoSalvar();
     }
 
-    private void configuraBotaoSalvar() {
-        Button botaoSalvar = findViewById(R.id.activity_formulario_aluno_botao_salvar);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_formulario_aluno_menu, menu);
 
-        botaoSalvar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        return super.onCreateOptionsMenu(menu);
+    }
 
-                atualizaOuSalvaAluno();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if(itemId == R.id.activity_formulario_aluno_menu_salvar) {
+            atualizaOuSalvaAluno();
+        }
 
-                finish();
-            }
-        });
+        return super.onOptionsItemSelected(item);
     }
 
     private void InicializaCamposDoFormulario() {
@@ -93,5 +97,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
             dao.atualiza(aluno);
         else
             dao.salva(aluno);
+
+        finish();
     }
 }
