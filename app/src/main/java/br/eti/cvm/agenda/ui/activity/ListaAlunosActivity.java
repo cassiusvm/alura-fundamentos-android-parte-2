@@ -9,6 +9,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -47,7 +49,15 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
         configuraNovoOuEditaAluno(listaDeAlunos);
 
-        configuraExclusaoAluno(listaDeAlunos);
+//        configuraExclusaoAluno(listaDeAlunos);
+
+        registerForContextMenu(listaDeAlunos);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add("Remover");
     }
 
     private void configuraBotaoNovoAluno() {
@@ -58,6 +68,20 @@ public class ListaAlunosActivity extends AppCompatActivity {
                 startActivity(abreFormularioModoInsereAluno());
             }
         });
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Aluno alunoEscolhido = adapterListaAlunos.getItem(menuInfo.position);
+        remove(alunoEscolhido);
+
+        return super.onContextItemSelected(item);
+    }
+
+    private void remove(Aluno alunoEscolhido) {
+        dao.remove(alunoEscolhido);
+        adapterListaAlunos.remove(alunoEscolhido);
     }
 
     private Intent abreFormularioModoInsereAluno() {
@@ -76,7 +100,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
         adapterListaAlunos.addAll(dao.getAlunos());
     }
 
-    private void configuraExclusaoAluno(ListView listaDeAlunos) {
+    /*private void configuraExclusaoAluno(ListView listaDeAlunos) {
         listaDeAlunos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int posicao, long id) {
@@ -86,7 +110,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
                 return true;
             }
         });
-    }
+    }*/
 
     private void configuraAdapter(ListView listView) {
         adapterListaAlunos = new ArrayAdapter<>(this,
