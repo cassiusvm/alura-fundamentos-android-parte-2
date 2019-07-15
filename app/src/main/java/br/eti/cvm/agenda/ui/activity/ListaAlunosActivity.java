@@ -24,6 +24,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
     public static final String TITULO_APPBAR = "Lista de alunos";
 
     private AlunoDAO dao;
+    private ArrayAdapter<Aluno> adapterListaAlunos;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,15 +65,30 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
         exibeListaAlunos(listaDeAlunos);
 
-        configuraFormularioAluno(listaDeAlunos);
+        configuraNovoOuEditaAluno(listaDeAlunos);
+
+        configuraExclusaoAluno(listaDeAlunos);
+    }
+
+    private void configuraExclusaoAluno(ListView listaDeAlunos) {
+        listaDeAlunos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int posicao, long id) {
+                Aluno alunoEscolhido = (Aluno) adapterView.getItemAtPosition(posicao);
+                dao.remove(alunoEscolhido);
+                adapterListaAlunos.remove(alunoEscolhido);
+                return true;
+            }
+        });
     }
 
     private void exibeListaAlunos(ListView listView) {
-        listView.setAdapter(new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, dao.getAlunos()));
+        adapterListaAlunos = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, dao.getAlunos());
+        listView.setAdapter(adapterListaAlunos);
     }
 
-    private void configuraFormularioAluno(ListView listView) {
+    private void configuraNovoOuEditaAluno(ListView listView) {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int posicao, long id) {
